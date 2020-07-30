@@ -10,7 +10,7 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     def _import(self, module):
-        importlib.import_module(module)
+        return importlib.import_module(module)
 
     def _to_base64(self, data):
         return base64.b64decode(data)
