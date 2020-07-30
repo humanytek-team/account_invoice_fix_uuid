@@ -7,6 +7,9 @@ from odoo import _, api, fields, models
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
+    def _to_base64(self, data):
+        return base64.b64decode(data)
+
     def _fix_uuids(self):
         invoices = self.search([
             ('number', '!=', False),
@@ -27,7 +30,6 @@ class AccountInvoice(models.Model):
                 limit=1,
             )
             if first_attachment.datas_fname[-3:] == 'xml':
-                xml = base64.b64decode(first_attachment.datas).decode("utf-8")
                 res += '{} {} {}\n'.format(r.number, first_attachment.datas_fname, xml)
 
         return res
